@@ -6,7 +6,6 @@ import com.awd.courses.courses_backend.model.Student;
 import com.awd.courses.courses_backend.model.dto.CommentDto;
 import com.awd.courses.courses_backend.service.CourseService;
 import org.springframework.stereotype.Service;
-import sun.plugin.dom.exception.InvalidStateException;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +20,7 @@ public class CommentConverter {
 
     public Comment toDomainModel(CommentDto commentDto, Student loggedStudent) {
         Course course = courseService.getCourse(commentDto.getCourseId()).orElseThrow(() ->
-                new InvalidStateException("Course with id = " + commentDto.getCourseId() + " does not exist"));
+                new RuntimeException("Course with id = " + commentDto.getCourseId() + " does not exist"));
         return Comment.builder()
                 .comment(commentDto.getComment())
                 .timestamp(LocalDateTime.now())

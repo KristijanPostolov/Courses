@@ -7,7 +7,6 @@ import com.awd.courses.courses_backend.service.CourseService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import sun.plugin.dom.exception.InvalidStateException;
 
 import java.io.IOException;
 
@@ -22,7 +21,7 @@ public class CourseFileConverter {
 
     public CourseFile toDomainModel(MultipartFile file, int courseId, Student loggedStudent) throws IOException {
         Course course = courseService.getCourse(courseId).orElseThrow(() ->
-                new InvalidStateException("Course with id = " + courseId + " does not exist"));
+                new RuntimeException("Course with id = " + courseId + " does not exist"));
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         return CourseFile.builder()
