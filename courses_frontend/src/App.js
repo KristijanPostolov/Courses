@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import Courses from "./pages/courses/CoursesPage";
+import CreateCourse from "./pages/courses/CreateCoursePage";
 
 
 const Container = styled.div`
@@ -16,7 +17,8 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   max-width: 960px;
-  padding-top: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   }
 `;
 
@@ -33,6 +35,7 @@ class App extends Component {
                             <RegisterPage path="/register"/>
                             <LoginPage path="/login"/>
                             <Courses path="/courses"/>
+                            <CreateCourse path="/courses/create"/>
                         </Router>
                     </LocationProvider>
                 </Container>

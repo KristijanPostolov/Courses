@@ -23,7 +23,8 @@ function Header() {
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
                     <Link className="nav-link" to="/"> Home </Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
+                    <Link className="nav-link" to="/courses"> Courses </Link>
+
 
                     <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

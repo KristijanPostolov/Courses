@@ -14,7 +14,6 @@ const StyledFooter = styled.div`
 const StyledNavbar = styled(Navbar)`
   && {
   height: 40px;
-  background-color:red !important;
 }
 `
 
