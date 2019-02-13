@@ -3,10 +3,12 @@ package com.awd.courses.courses_backend.service;
 import com.awd.courses.courses_backend.model.Student;
 import com.awd.courses.courses_backend.model.StudentUserDetails;
 import com.awd.courses.courses_backend.model.dto.RegisterStudentDto;
+import com.awd.courses.courses_backend.model.dto.StudentDto;
 import com.awd.courses.courses_backend.repository.StudentRepository;
 import com.awd.courses.courses_backend.service.converter.StudentConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,17 +43,17 @@ public class StudentService implements UserDetailsService {
         return new StudentUserDetails(student);
     }
 
-    public Optional<Student> getStudent(int id) {
-        log.info("Getting student with id: [{}]", id);
-        return repository.findById(id);
-    }
-
-    public Student registerStudent(RegisterStudentDto registerStudentDto) {
+    public StudentDto registerStudent(RegisterStudentDto registerStudentDto) {
         Student student = converter.registrationDataToDomainModel(registerStudentDto);
         String hashedPassword = passwordEncoder.encode(registerStudentDto.getPassword());
         student.setPassword(hashedPassword);
         log.info("Saving student: [{}]", student.getUsername());
-        return repository.save(student);
+        Student savedStudent = repository.save(student);
+        return converter.toPresentationModel(savedStudent);
     }
 
+    public StudentDto getLoggedUser(Authentication authentication) {
+        Student loggedStudent = (Student) authentication.getPrincipal();
+        return converter.toPresentationModel(loggedStudent);
+    }
 }

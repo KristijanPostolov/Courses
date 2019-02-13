@@ -19,6 +19,7 @@ public class Student {
     @Column(unique = true)
     private String username;
 
+
     private String password;
 
     @Column(name = "first_name")

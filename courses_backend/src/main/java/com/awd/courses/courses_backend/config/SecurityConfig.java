@@ -62,7 +62,7 @@ public class SecurityConfig {
                     .antMatchers(HttpMethod.POST, "/api/courses").hasAuthority("STUDENT")
                     .antMatchers(HttpMethod.POST, "/api/comments").hasAuthority("STUDENT")
                     .antMatchers(HttpMethod.POST, "/api/courseFiles").hasAuthority("STUDENT")
-                    .antMatchers("/**").permitAll()
+                    .antMatchers("/api/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .formLogin()
