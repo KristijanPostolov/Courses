@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,10 +22,13 @@ public class StudentService implements UserDetailsService {
 
     private final StudentRepository repository;
     private final StudentConverter converter;
+    private final PasswordEncoder passwordEncoder;
 
-    public StudentService(StudentRepository repository, StudentConverter converter) {
+    public StudentService(StudentRepository repository, StudentConverter converter,
+                          PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.converter = converter;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,6 +48,8 @@ public class StudentService implements UserDetailsService {
 
     public Student registerStudent(RegisterStudentDto registerStudentDto) {
         Student student = converter.registrationDataToDomainModel(registerStudentDto);
+        String hashedPassword = passwordEncoder.encode(registerStudentDto.getPassword());
+        student.setPassword(hashedPassword);
         log.info("Saving student: [{}]", student.getUsername());
         return repository.save(student);
     }
