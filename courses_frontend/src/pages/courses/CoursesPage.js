@@ -6,6 +6,10 @@ import CardActions from "@material-ui/core/CardActions/CardActions";
 import Button from "@material-ui/core/Button/Button";
 import styled from "styled-components";
 import {navigate} from "@reach/router";
+import {getAllCourses} from "../../services/CoursesApi";
+import ControlPoint from "@material-ui/icons/ControlPoint";
+import Container from "../../components/Container";
+
 
 const ContainerDiv = styled.div`
   && {
@@ -13,166 +17,90 @@ const ContainerDiv = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   }
+`;
 
-`
+const StyledCardContent = styled(CardContent)`
+  &&{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+  }
+`;
+const AddCourseCard = styled(Card)`
+  && {
+   flex:1 0 26%;
+  margin-right: 20px;
+  margin-top: 20px;
+  border: 0.5px solid orange;
+  background-color: lightgoldenrodyellow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+`;
 
 const StyledCard = styled(Card)`
 && {
   flex:1 0 26%;
   margin-right: 20px;
   margin-top: 20px;
+  border: 0.5px solid orange;
+  background-color: lightgoldenrodyellow; 
 }
-`
+`;
 
-function Courses() {
+function Courses(props) {
 
     const [courses, setCourses] = useState(null);
 
     useEffect(() => {
-        console.log(courses);
-    });
+        getAllCourses("").then(res => setCourses(res))
+
+    }, []);
+
+    console.log(courses);
 
     const handleClick = event => {
         event.preventDefault();
         navigate('/courses/create');
-    }
+    };
 
     return (
-        <>
-            <h2 style={{fontFamily:'arial'}}> Courses </h2>
-            <ContainerDiv>
-                {courses ? courses.map((course, key) =>
-                    <StyledCard key={key}>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                {course.name}
-                            </Typography>
-                            <Typography component="p">
-                                {course.text}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </StyledCard>
-                ) : <>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary">
-                                adjective
-                            </Typography>
-                            <Typography component="p">
-                                well meaning and kindly.
-                                <br/>
-                                {'"a benevolent smile"'}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </StyledCard>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary">
-                                adjective
-                            </Typography>
-                            <Typography component="p">
-                                well meaning and kindly.
-                                <br/>
-                                {'"a benevolent smile"'}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </StyledCard>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary">
-                                adjective
-                            </Typography>
-                            <Typography component="p">
-                                well meaning and kindly.
-                                <br/>
-                                {'"a benevolent smile"'}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </StyledCard>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary">
-                                adjective
-                            </Typography>
-                            <Typography component="p">
-                                well meaning and kindly.
-                                <br/>
-                                {'"a benevolent smile"'}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </StyledCard>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary">
-                                adjective
-                            </Typography>
-                            <Typography component="p">
-                                well meaning and kindly.
-                                <br/>
-                                {'"a benevolent smile"'}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </StyledCard>
-                    <StyledCard>
-                        <CardContent>
-                            <Typography color="textSecondary" gutterBottom>
-                                Word of the Day
-                            </Typography>
-                            <Typography color="textSecondary">
-                                adjective
-                            </Typography>
-                            <Typography component="p">
-                                well meaning and kindly.
-                                <br/>
-                                {'"a benevolent smile"'}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </StyledCard>
+        <div style={{width: 960}}>
+            <Container>
+                <h2 style={{fontFamily: 'arial'}}> COURSES </h2>
+                <ContainerDiv>
 
-                </>}
-            </ContainerDiv>
+                    {props.value && <AddCourseCard onClick={handleClick}>
+                        <StyledCardContent>
+                            <Typography variant={"title"} gutterBottom>
+                                Add Course
+                            </Typography>
+                            <ControlPoint width={40} height={40}/>
+                        </StyledCardContent>
+                    </AddCourseCard>}
 
-            <div>
-                <Button variant="contained" color="primary" onClick={handleClick} > Create course </Button>
-            </div>
-
-        </>
+                    {courses && courses.map((course, key) =>
+                        <StyledCard key={key}>
+                            <CardContent>
+                                <Typography variant={"title"} gutterBottom>
+                                    {course.name}
+                                </Typography>
+                                <Typography component="p" noWrap>
+                                    {course.description}
+                                </Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small" onClick={() => navigate(`courses/${course.id}`)}>Learn
+                                    More</Button>
+                            </CardActions>
+                        </StyledCard>
+                    )}
+                </ContainerDiv>
+            </Container>
+        </div>
     )
 }
 

@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField/TextField";
 import Button from "@material-ui/core/Button/Button";
 import styled from "styled-components";
 import {registerStudent} from "../services/StudentApi";
+import {navigate} from "@reach/router";
 
 const StyledTextField = styled(TextField)`
 && {
@@ -20,7 +21,9 @@ function RegisterPage() {
         confirmPassword:'',
         firstName: '',
         lastName: '',
-    })
+    });
+
+    const [error, setError] = useState(false);
 
     const handleChange = name => event => {
         setRegisterValues({...registerValues, [name]: event.target.value});
@@ -33,12 +36,18 @@ function RegisterPage() {
             registerStudent(registerValues)
                 .then(res => console.log(res))
                 .catch(err => console.log(err))
+            navigate('/login')
+
         }
+        else setError(true)
     };
 
+    console.log(registerValues);
+
     return (
-        <Container>
+        <div style={{width:360}}>
             <h3 style={{fontFamily: 'arial', textAlign: 'center'}}>REGISTER USER</h3>
+            {error && <div> <p>Password does not match</p></div>}
             <form onSubmit={handleSubmit}>
                 <Fieldset>
                     <legend>Credentials</legend>
@@ -57,7 +66,7 @@ function RegisterPage() {
                     </div>
                 </Fieldset>
             </form>
-        </Container>
+        </div>
     )
 }
 

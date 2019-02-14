@@ -19,5 +19,5 @@ body {
   display: block;
   position: relative;
   padding-bottom: 40px; /* height of your footer */
-  background-color: lightyellow;
+  background-color: lightgrey;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import Courses from "./courses/CoursesPage";
 
-function Dashboard() {
+function Dashboard(props) {
     return (
         <div>
             <h1>Hello World</h1>
@@ -38,7 +38,7 @@ function Dashboard() {
                 vel tortor
                 vel, semper eleifend lorem. Integer euismod auctor sapien, vel facilisis justo convallis ac.
             </p>
-            <Courses/>
+            <Courses value={props.value} />
         </div>
     )
 }

@@ -7,9 +7,9 @@ display: flex;
 justify-content: center;
 align-self: center;
 flex-direction: column;
-height: 80vh ;
+height: 78vh;
 }
-`
+`;
 
 function Container(props) {
     return (

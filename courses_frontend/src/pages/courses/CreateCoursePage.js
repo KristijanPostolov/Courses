@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button/Button";
 import styled from "styled-components";
 import {navigate} from "@reach/router";
 import {createCourse} from "../../services/CoursesApi";
+import ArrowBack from "@material-ui/icons/ArrowBack";
 
 
 const StyledTextField = styled(TextField)`
@@ -14,13 +15,28 @@ margin-top: 20px;
 }
 `;
 
+const BackButton = styled(Button)`
+  && {
+  border-radius: 25px;
+  background-color: brown;
+  min-width:30px !important;
+  height: 30px; 
+  padding:5px;
+  color: white;
+  }
+  &:hover {
+    color: brown;
+    background-color: white;
+  }
+`;
+
 function CreateCourse() {
 
     const [courseValues, setCourseValues] = useState({
         name: '',
         description: '',
         year: ''
-    })
+    });
 
     const handleChange = name => event => {
         setCourseValues({...courseValues, [name]: event.target.value});
@@ -31,7 +47,7 @@ function CreateCourse() {
         createCourse(courseValues)
             .then(res => console.log(res))
             .catch(err => console.log(err))
-        // navigate('/courses')
+        navigate('/courses')
     };
 
     const handleBack = event => {
@@ -40,16 +56,17 @@ function CreateCourse() {
     };
     return (
         <Container>
-            <div style={{display: 'flex'}}><Button variant="contained" onClick={handleBack}>Back</Button> <h3
-                style={{fontFamily: 'arial'}}>CREATE COURSE</h3></div>
+            <div style={{display: 'flex'}}><BackButton variant="contained" onClick={handleBack}>
+                <ArrowBack/></BackButton> <h3
+                style={{fontFamily: 'arial', paddingLeft:10}}>CREATE COURSE</h3></div>
             <form onSubmit={handleSubmit}>
                 <Fieldset>
-                    <legend>Course Details</legend>
-                    <StyledTextField fullWidth label="Name" value={courseValues.name} onChange={handleChange("name")}/>
-                    <StyledTextField fullWidth label="Description" value={courseValues.description}
-                                     onChange={handleChange("description")}/>
-                    <StyledTextField fullWidth label="Year" type="number" value={courseValues.year}
+                    <legend>Details</legend>
+                    <StyledTextField fullWidth label="Name" variant="outlined" value={courseValues.name} onChange={handleChange("name")}/> <br/>
+                    <StyledTextField  fullWidth label="Year" variant="outlined" value={courseValues.year}
                                      onChange={handleChange("year")}/>
+                    <StyledTextField  fullWidth multiline variant="outlined"  rows="4" label="Description" value={courseValues.description}
+                                     onChange={handleChange("description")}/>
                     <div style={{display: 'flex', justifyContent: 'center', marginTop: 15}}>
                         <Button variant="contained" color="primary" type="submit"> Register</Button>
                     </div>

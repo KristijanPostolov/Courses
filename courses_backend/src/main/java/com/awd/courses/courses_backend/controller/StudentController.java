@@ -4,6 +4,7 @@ import com.awd.courses.courses_backend.model.Student;
 import com.awd.courses.courses_backend.model.dto.RegisterStudentDto;
 import com.awd.courses.courses_backend.model.dto.StudentDto;
 import com.awd.courses.courses_backend.service.StudentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,14 @@ public class StudentController {
     }
 
     @GetMapping("/loggedUser")
-    public StudentDto getLoggedUser(Authentication authentication) {
-        return studentService.getLoggedUser(authentication);
+    public ResponseEntity<StudentDto> getLoggedUser(Authentication authentication) {
+
+        StudentDto studentDto = studentService.getLoggedUser(authentication);
+
+        if (studentDto == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(studentDto);
+
     }
 }

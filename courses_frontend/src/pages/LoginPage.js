@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button/Button";
 import styled from 'styled-components';
 import Container from "../components/Container";
 import Fieldset from "../components/Fieldset";
+import {loginStudent} from "../services/StudentApi";
+import {navigate} from "@reach/router";
 
 
 const Field = styled(TextField)`
@@ -12,7 +14,7 @@ const Field = styled(TextField)`
   }
 `;
 
-function LoginPage() {
+function LoginPage(props) {
     const [loginValues, setLoginValues] = useState({
         username:'',
         password:'',
@@ -24,8 +26,15 @@ function LoginPage() {
 
     const handleSubmit = event => {
         event.preventDefault();
-    };
+        loginStudent(loginValues.username, loginValues.password)
+            .then(res=> {
+                console.log(res);
+                props.login(loginValues.username);
+                navigate('/');
+            });
 
+
+    };
     return (
         <Container>
             <h3 style={{fontFamily: 'arial', textAlign: 'center'}}>LOGIN</h3>

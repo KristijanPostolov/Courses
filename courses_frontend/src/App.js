@@ -9,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import Courses from "./pages/courses/CoursesPage";
 import CreateCourse from "./pages/courses/CreateCoursePage";
+import CourseDetails from "./pages/courses/CourseDetailsPage";
 
 
 const Container = styled.div`
@@ -24,18 +25,35 @@ const Container = styled.div`
 
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state= {
+            loginData: undefined
+        };
+       this.setLoginStatus = this.setLoginStatus.bind(this);
+    }
+
+    setLoginStatus(data) {
+        this.setState({loginData: data});
+        console.log(this.state.loginData);
+    }
+
+
     render() {
+
+        console.log("Testing", this.state.loginData);
         return (
             <div className="main-container">
-                <Header/>
+                <Header value={this.state.loginData} logout={this.setLoginStatus} />
                 <Container>
                     <LocationProvider>
                         <Router>
-                            <Dashboard path="/"/>
+                            <Dashboard value={this.state.loginData} path="/"/>
                             <RegisterPage path="/register"/>
-                            <LoginPage path="/login"/>
-                            <Courses path="/courses"/>
-                            <CreateCourse path="/courses/create"/>
+                            <LoginPage login={this.setLoginStatus} path="/login"/>
+                            <Courses value={this.state.loginData} path="/courses"/>
+                            <CourseDetails value={this.state.loginData} path="/courses/:courseId"/>
+                            <CreateCourse value={this.state.loginData}  path="/courses/create"/>
                         </Router>
                     </LocationProvider>
                 </Container>

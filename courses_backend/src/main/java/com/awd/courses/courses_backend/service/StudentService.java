@@ -54,6 +54,11 @@ public class StudentService implements UserDetailsService {
 
     public StudentDto getLoggedUser(Authentication authentication) {
         Student loggedStudent = (Student) authentication.getPrincipal();
+
+        if (loggedStudent == null){
+            return null;
+        }
+
         return converter.toPresentationModel(loggedStudent);
     }
 }

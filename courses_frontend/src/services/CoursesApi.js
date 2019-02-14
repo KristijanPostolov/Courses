@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-async function getAllCourses() {
-    return axios.get("/api/courses")
+async function getAllCourses(query) {
+    return axios.get(`/api/courses?query=${query}`)
         .then(response =>{return response.data})
         .catch(error => console.log(error))
 }
