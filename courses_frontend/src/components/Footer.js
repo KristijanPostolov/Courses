@@ -1,9 +1,7 @@
 import React from "react";
 import {Navbar} from "react-bootstrap";
-import Nav from "react-bootstrap/Nav";
 import styled from 'styled-components';
 import Logo from '../assets/finki_52_1_2_1_62_0.png';
-
 
 
 const StyledFooter = styled.div`

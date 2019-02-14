@@ -14,7 +14,7 @@ import ListItemText from "@material-ui/core/ListItemText/ListItemText";
 import {Link, navigate} from "@reach/router";
 import AttachFile from "@material-ui/icons/AttachFile";
 import Attachment from "@material-ui/icons/Attachment";
-import {attachFile, downloadFile} from "../../services/CourseFilesApi";
+import {attachFile} from "../../services/CourseFilesApi";
 import {Paper} from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
@@ -100,11 +100,6 @@ function CourseDetails(props) {
     const handleFileChange = event => {
         event.preventDefault();
         setFile(event.target.files[0])
-    };
-
-    const downloadAttachment = fileId => event => {
-        event.preventDefault();
-        downloadFile(fileId).then(res => console.log("spusteno"))
     };
 
     const handleBack = event => {
