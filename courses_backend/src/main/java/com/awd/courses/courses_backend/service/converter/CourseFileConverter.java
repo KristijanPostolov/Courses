@@ -3,6 +3,7 @@ package com.awd.courses.courses_backend.service.converter;
 import com.awd.courses.courses_backend.model.Course;
 import com.awd.courses.courses_backend.model.CourseFile;
 import com.awd.courses.courses_backend.model.Student;
+import com.awd.courses.courses_backend.model.dto.CourseFileDto;
 import com.awd.courses.courses_backend.service.CourseService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -30,6 +31,14 @@ public class CourseFileConverter {
                 .data(file.getBytes())
                 .course(course)
                 .student(loggedStudent)
+                .build();
+    }
+
+    public CourseFileDto toPresentationModel(CourseFile courseFile) {
+        return CourseFileDto.builder()
+                .fileId(courseFile.getId())
+                .fileName(courseFile.getFileName())
+                .fileType(courseFile.getFileType())
                 .build();
     }
 
