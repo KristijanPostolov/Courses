@@ -1,6 +1,7 @@
 package com.awd.courses.courses_backend.controller;
 
 import com.awd.courses.courses_backend.model.Comment;
+import com.awd.courses.courses_backend.model.dto.CommentDetailsDto;
 import com.awd.courses.courses_backend.model.dto.CommentDto;
 import com.awd.courses.courses_backend.service.CommentService;
 import org.springframework.security.core.Authentication;
@@ -25,7 +26,7 @@ public class CommentController {
     }
 
     @PostMapping
-    public Comment postComment(@RequestBody @Valid CommentDto commentDto, Authentication authentication) {
+    public CommentDetailsDto postComment(@RequestBody @Valid CommentDto commentDto, Authentication authentication) {
         return commentService.postComment(commentDto, authentication);
     }
 }

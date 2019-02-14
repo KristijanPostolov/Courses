@@ -2,6 +2,7 @@ package com.awd.courses.courses_backend.service;
 
 import com.awd.courses.courses_backend.model.CourseFile;
 import com.awd.courses.courses_backend.model.Student;
+import com.awd.courses.courses_backend.model.StudentUserDetails;
 import com.awd.courses.courses_backend.model.dto.CourseFileDto;
 import com.awd.courses.courses_backend.repository.CourseFileRepository;
 import com.awd.courses.courses_backend.service.converter.CourseFileConverter;
@@ -30,7 +31,7 @@ public class CourseFileService {
     }
 
     public Optional<CourseFileDto> storeFile(MultipartFile multipartFile, int courseId, Authentication authentication) {
-        Student loggedStudent = (Student) authentication.getPrincipal();
+        Student loggedStudent = ((StudentUserDetails) authentication.getPrincipal()).getStudent();
         try {
             log.info("Saving file for course: [{}]", courseId);
             CourseFile courseFile = courseFileConverter.toDomainModel(multipartFile, courseId, loggedStudent);

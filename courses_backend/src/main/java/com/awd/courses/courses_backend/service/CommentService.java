@@ -2,6 +2,8 @@ package com.awd.courses.courses_backend.service;
 
 import com.awd.courses.courses_backend.model.Comment;
 import com.awd.courses.courses_backend.model.Student;
+import com.awd.courses.courses_backend.model.StudentUserDetails;
+import com.awd.courses.courses_backend.model.dto.CommentDetailsDto;
 import com.awd.courses.courses_backend.model.dto.CommentDto;
 import com.awd.courses.courses_backend.repository.CommentRepository;
 import com.awd.courses.courses_backend.service.converter.CommentConverter;
@@ -30,11 +32,11 @@ public class CommentService {
         return commentRepository.findByCourseIdOrderByTimestampDesc(courseId);
     }
 
-    public Comment postComment(CommentDto commentDto, Authentication authentication) {
-        Student loggedStudent = (Student) authentication.getPrincipal();
+    public CommentDetailsDto postComment(CommentDto commentDto, Authentication authentication) {
+        Student loggedStudent = ((StudentUserDetails) authentication.getPrincipal()).getStudent();
         Comment comment = commentConverter.toDomainModel(commentDto, loggedStudent);
         log.info("Saving comment on course [{}], by user [{}]", comment.getCourse().getName(),
                 loggedStudent.getUsername());
-        return commentRepository.save(comment);
+        return commentConverter.toCommentDetails(commentRepository.save(comment));
     }
 }

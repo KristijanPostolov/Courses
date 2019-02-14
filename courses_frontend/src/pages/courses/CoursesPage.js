@@ -47,7 +47,8 @@ const StyledCard = styled(Card)`
   margin-right: 20px;
   margin-top: 20px;
   border: 0.5px solid orange;
-  background-color: lightgoldenrodyellow; 
+  background-color: lightgoldenrodyellow;
+  height: 160px;
 }
 `;
 
@@ -92,7 +93,7 @@ function Courses(props) {
                                     {course.description}
                                 </Typography>
                             </CardContent>
-                            <CardActions>
+                            <CardActions style={{marginTop:20}}>
                                 <Button size="small" onClick={() => navigate(`courses/${course.id}`)}>Learn
                                     More</Button>
                             </CardActions>

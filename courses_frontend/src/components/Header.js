@@ -16,8 +16,11 @@ const RoundedImage = styled.img`
 function Header(props) {
 
     const userLogut = () => {
-        logout().then(res => props.logout(undefined))
-    }
+        logout().then(res => {
+            props.logout(undefined);
+            navigate('/');
+        })
+    };
 
 
     return (
@@ -45,7 +48,8 @@ function Header(props) {
                 </Nav>
                 <Nav>
                     {props.value ? <>
-                            <Nav.Link> <Account/><span style={{paddingLeft:3}}>{props.value.toUpperCase()}</span></Nav.Link>
+                            <Nav.Link> <Account/><span
+                                style={{paddingLeft: 3}}>{props.value.toUpperCase()}</span></Nav.Link>
                             <Nav.Link onClick={userLogut}> Logout </Nav.Link>
                         </> :
                         <>

@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import Courses from "./pages/courses/CoursesPage";
 import CreateCourse from "./pages/courses/CreateCoursePage";
 import CourseDetails from "./pages/courses/CourseDetailsPage";
+import POm from "./pages/courses/POm";
 
 
 const Container = styled.div`
@@ -54,6 +55,7 @@ class App extends Component {
                             <Courses value={this.state.loginData} path="/courses"/>
                             <CourseDetails value={this.state.loginData} path="/courses/:courseId"/>
                             <CreateCourse value={this.state.loginData}  path="/courses/create"/>
+                            <POm path="/pom/:courseId"/>
                         </Router>
                     </LocationProvider>
                 </Container>
