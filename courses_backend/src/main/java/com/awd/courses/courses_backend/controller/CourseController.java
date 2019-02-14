@@ -1,9 +1,8 @@
 package com.awd.courses.courses_backend.controller;
 
 import com.awd.courses.courses_backend.model.Course;
+import com.awd.courses.courses_backend.model.dto.CourseDetails;
 import com.awd.courses.courses_backend.service.CourseService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +11,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/courses")
 public class CourseController {
-
-    private final Logger log = LoggerFactory.getLogger(CourseController.class);
 
     private final CourseService courseService;
 
@@ -26,9 +23,16 @@ public class CourseController {
         return courseService.getCoursesByName(query);
     }
 
-    @GetMapping("/id}{")
+    @GetMapping("/{id}")
     public ResponseEntity<Course> getCourse(@PathVariable int id) {
         return courseService.getCourse(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<CourseDetails> getCourseDetails(@PathVariable int id) {
+        return courseService.getCourseDetails(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

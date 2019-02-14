@@ -4,7 +4,7 @@ import com.awd.courses.courses_backend.model.Course;
 import com.awd.courses.courses_backend.model.CourseFile;
 import com.awd.courses.courses_backend.model.Student;
 import com.awd.courses.courses_backend.model.dto.CourseFileDto;
-import com.awd.courses.courses_backend.service.CourseService;
+import com.awd.courses.courses_backend.repository.CourseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,14 +14,14 @@ import java.io.IOException;
 @Service
 public class CourseFileConverter {
 
-    private final CourseService courseService;
+    private final CourseRepository courseRepository;
 
-    public CourseFileConverter(CourseService courseService) {
-        this.courseService = courseService;
+    public CourseFileConverter(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
     }
 
     public CourseFile toDomainModel(MultipartFile file, int courseId, Student loggedStudent) throws IOException {
-        Course course = courseService.getCourse(courseId).orElseThrow(() ->
+        Course course = courseRepository.findById(courseId).orElseThrow(() ->
                 new RuntimeException("Course with id = " + courseId + " does not exist"));
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
