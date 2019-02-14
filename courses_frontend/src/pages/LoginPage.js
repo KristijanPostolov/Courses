@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import Container from "../components/Container";
 import Fieldset from "../components/Fieldset";
 import {loginStudent} from "../services/StudentApi";
-import {navigate} from "@reach/router";
+import {Link, navigate} from "@reach/router";
+
 
 
 const Field = styled(TextField)`
@@ -48,6 +49,8 @@ function LoginPage(props) {
                     </div>
                 </Fieldset>
             </form>
+
+            <p style={{paddingTop:10}}>Dont have an account, Register <Link to='/register' style={{color:'blue', cursor:'pointer'}}> here </Link></p>
         </Container>
     )
 }

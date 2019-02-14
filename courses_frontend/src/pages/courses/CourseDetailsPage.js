@@ -11,31 +11,50 @@ import ListItem from "@material-ui/core/ListItem/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import {navigate} from "@reach/router";
+import {Link, navigate} from "@reach/router";
 import AttachFile from "@material-ui/icons/AttachFile";
 import Attachment from "@material-ui/icons/Attachment";
-import {attachFile} from "../../services/CourseFilesApi";
+import {attachFile, downloadFile} from "../../services/CourseFilesApi";
+import {Paper} from "@material-ui/core";
+import ArrowBack from "@material-ui/icons/ArrowBack";
 
 const ContainerDiv = styled.div`
   display: flex;
-  min-width: 960px;
+  width: 1000px;
   min-height: 75vh;
   font-family: Arial;
   flex-direction: column;
 `;
-const Left = styled.div`
+const Left = styled(Paper)`
+&& {
   padding-top: 20px;
   padding-left: 20px;
   width: 70%;
-  background-color: red;
-  
+  }
 `;
 
-const Right = styled.div`
-background-color: yellow;
+const BackButton = styled(Button)`
+  && {
+  border-radius: 25px;
+  background-color: orange;
+  min-width:30px !important;
+  height: 30px; 
+  padding:5px;
+  color: white;
+  }
+  &:hover {
+    color: orange;
+    background-color: white;
+  }
+`;
+
+const Right = styled(Paper)`
+&& {
+background-color: lightgoldenrodyellow;
 padding-top: 20px;
   padding-left: 20px;
   width: 30%;
+  }
 `;
 
 
@@ -63,7 +82,6 @@ function CourseDetails(props) {
         event.preventDefault();
 
         createComment(comment).then(res => {
-            // setCourse({ ...course, [course.comments]: res})
             navigate(`/pom/${props.courseId}`);
         })
     };
@@ -72,31 +90,39 @@ function CourseDetails(props) {
         event.preventDefault();
 
         const data = new FormData();
-        data.append('file', file, file.name);
+        data.append('file', file);
         data.append('courseId', props.courseId);
         attachFile(data, props.courseId).then(res => {
             navigate(`/pom/${props.courseId}`);
         })
     };
 
-    const handleFileChange = event =>  {
+    const handleFileChange = event => {
         event.preventDefault();
         setFile(event.target.files[0])
     };
 
-    console.log("File",file);
+    const downloadAttachment = fileId => event => {
+        event.preventDefault();
+        downloadFile(fileId).then(res => console.log("spusteno"))
+    };
+
+    const handleBack = event => {
+        event.preventDefault();
+        navigate('/courses')
+    };
+
 
     return (
         <ContainerDiv>
-            <div>
-                <h2 style={{textAlign:'center', marginBottom:10}}>DETAILS PAGE</h2>
-
-            </div>
+            <div style={{display: 'flex'}}><BackButton variant="contained" onClick={handleBack}>
+                <ArrowBack/></BackButton> <h3
+                style={{fontFamily: 'arial', paddingLeft:10}}>CREATE COURSE</h3></div>
             {course && <div style={{display: 'flex'}}>
                 <Left>
                     <h3 style={{textAlign: 'center'}}>{course.name}</h3>
-                    <hr/>
-                    <p>{course.description}</p>
+                    <hr width="35%"/>
+                    <div style={{ fontFamily:'arial', wordWrap: 'break-word', paddingTop:20}}><p>{course.description}</p> <hr/></div>
 
                     <div>
                         <h4>Comment Section</h4>
@@ -110,43 +136,43 @@ function CourseDetails(props) {
                                     </ListItemAvatar>
                                     <ListItemText
                                         primary={e.comment}
-                                        secondary={e.author}
+                                        secondary={`Author: ${e.author}`}
                                     />
                                 </ListItem>
                             )}
                         </List>
 
                     </div>
-                    {props.value && <form style={{width: 610}}>
+                    {props.value ? <form style={{width: 610}}>
                         <p> Write something for this course </p>
                         <TextField fullWidth label={"Comment"} variant={"outlined"} multiline rows={4}
                                    onChange={handleChange('comment')}/>
                         <Button type="submit" onClick={postComment}> <AddComment/> Send Comment </Button>
-                    </form>}
+                    </form> : <h4><Link to='/login'>Login</Link> to insert a comment</h4>}
                 </Left>
 
 
                 <Right>
                     <div>
                         <h4>Files</h4>
-                        <List>
+                        {course.courseFiles && course.courseFiles.length === 0 ? <p style={{paddingTop:10}}>No Files for this Course</p> : "" }
+                        <List style={{wordWrap: 'break-word'}}>
                             {course.courseFiles && course.courseFiles.map((e, key) =>
-                                <ListItem key={key}>
+                                <ListItem>
                                     <ListItemAvatar>
                                         <Avatar>
                                             <Attachment/>
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText
-                                        primary={e.fileName}
-                                    />
+                                    <a style={{paddingLeft: 5, wordWrap: 'break-word', width: 215}}
+                                       href={`api/courses/${e.fileId}`} download={e.fileName}> {e.fileName}</a>
                                 </ListItem>
                             )}
                         </List>
                     </div>
                     {props.value && <form>
-                        <p> Write something for this course </p>
-                        <input type="file" onChange={handleFileChange}/>
+                        <p> Add Attachment for this Course</p>
+                        <input type="file" onChange={handleFileChange} style={{width:215}}/>
                         <Button type="submit" onClick={postFile}> <AttachFile/> Send Attachment </Button>
                     </form>}
                 </Right>

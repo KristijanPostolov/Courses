@@ -9,6 +9,7 @@ import {navigate} from "@reach/router";
 import {getAllCourses} from "../../services/CoursesApi";
 import ControlPoint from "@material-ui/icons/ControlPoint";
 import Container from "../../components/Container";
+import ArrowForward from "@material-ui/icons/ArrowForward";
 
 
 const ContainerDiv = styled.div`
@@ -22,7 +23,8 @@ const ContainerDiv = styled.div`
 const StyledCardContent = styled(CardContent)`
   &&{
     display:flex;
-    justify-content: center;
+    justify-content: stretch;
+    flex: 1 0 auto;
     align-items: center;
     flex-direction: column;
     
@@ -49,6 +51,8 @@ const StyledCard = styled(Card)`
   border: 0.5px solid orange;
   background-color: lightgoldenrodyellow;
   height: 160px;
+  position: relative;
+
 }
 `;
 
@@ -89,13 +93,12 @@ function Courses(props) {
                                 <Typography variant={"title"} gutterBottom>
                                     {course.name}
                                 </Typography>
-                                <Typography component="p" noWrap>
+                                <Typography style={{paddingTop:5}} component="p" noWrap>
                                     {course.description}
                                 </Typography>
                             </CardContent>
-                            <CardActions style={{marginTop:20}}>
-                                <Button size="small" onClick={() => navigate(`courses/${course.id}`)}>Learn
-                                    More</Button>
+                            <CardActions style={{position:'absolute',bottom:'0'}}>
+                                <Button style={{color:'orange', fontWeight:'bold'}} size="small" onClick={() => navigate(`courses/${course.id}`)}>Details <ArrowForward/> </Button>
                             </CardActions>
                         </StyledCard>
                     )}

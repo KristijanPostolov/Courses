@@ -9,6 +9,7 @@ import {createCourse} from "../../services/CoursesApi";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
 
+
 const StyledTextField = styled(TextField)`
 && {
 margin-top: 20px;
@@ -18,14 +19,14 @@ margin-top: 20px;
 const BackButton = styled(Button)`
   && {
   border-radius: 25px;
-  background-color: brown;
+  background-color: orange;
   min-width:30px !important;
   height: 30px; 
   padding:5px;
   color: white;
   }
   &:hover {
-    color: brown;
+    color: orange;
     background-color: white;
   }
 `;
@@ -67,8 +68,8 @@ function CreateCourse() {
                                      onChange={handleChange("year")}/>
                     <StyledTextField  fullWidth multiline variant="outlined"  rows="4" label="Description" value={courseValues.description}
                                      onChange={handleChange("description")}/>
-                    <div style={{display: 'flex', justifyContent: 'center', marginTop: 15}}>
-                        <Button variant="contained" color="primary" type="submit"> Register</Button>
+                    <div style={{display: 'flex', justifyContent: 'center', marginTop: 15, marginBottom:15}}>
+                        <Button variant="contained" color="primary" type="submit"> Create Course</Button>
                     </div>
                 </Fieldset>
             </form>

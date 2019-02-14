@@ -10,6 +10,7 @@ const FieldSet = styled.fieldset`
     border: none;
     font-size: 14px;
     padding-left: 10px;
+    padding-right: 10px;
     }
 }`;
 
